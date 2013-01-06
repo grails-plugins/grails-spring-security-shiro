@@ -1,0 +1,3 @@
+The Spring Security Shiro plugin adds some support for using a hybrid approach combining Spring Security and [Shiro|https://shiro.apache.org/]. It currently only supports Shiro ACLs, since Spring Security ACLs are very powerful but can be very cumbersome to use, and the Shiro approach is straightforward and simple.
+
+The majority of the authentication and authorization work is still done by Spring Security. This plugin listens for Spring Security authentication events and uses the Spring Security @Authentication@ instance to build and register a Shiro @Subject@ instance. It also removes the Shiro credentials when you explicitly logout.

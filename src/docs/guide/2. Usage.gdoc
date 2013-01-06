@@ -1,0 +1,83 @@
+The first step is to add a dependency for the plugin in @BuildConfig.groovy@:
+
+{code}
+plugins {
+   ...
+   compile ':spring-security-shiro:0.1'
+}
+{code}
+
+This should pull in the @spring-security-core@ plugin transitively but you can also explicitly add in a dependency for that, in particular if you want to use a newer version than the plugin requires:
+
+{code}
+plugins {
+   ...
+   compile ':spring-security-core:1.2.7.3'
+}
+{code}
+
+h4. Permissions
+
+To use the Shiro annotations and methods you need a way to associate roles and permissions with users. The Spring Security Core plugin already handles the role part for you, so you must configure permissions for this plugin. There is no script to create a domain class, but it's a very simple class and easy to create yourself. It can have any name and be in any package, but otherwise the structure must look like this:
+
+{code}
+package com.mycompany.myapp
+
+class Permission {
+
+   User user
+   String permission
+
+   static constraints = {
+      permission unique: 'user'
+   }
+}
+{code}
+
+Register the class name along with the other Spring Security attributes in @Config.groovy@ using the @grails.plugins.springsecurity.shiro.permissionDomainClassName@ property, e.g.
+
+{code}
+grails.plugins.springsecurity.shiro.permissionDomainClassName =
+     'com.mycompany.myapp.Permission'
+{code}
+
+You can add other properties and methods, but the plugin expects that there is a one-to-many between your user and permission classes, that the user property name is "user" (regardless of the actual class name), and the permission property name is "permission".
+
+If you need more flexibility, or perhaps to create this as a many-to-many, you can replace the Spring bean that looks up permissions. Create a class in src/groovy or src/java that implements the @grails.plugin.springsecurity.shiro.ShiroPermissionResolver@ interface, and define the @Set<String> resolvePermissions(String username)@ method any way you like. Register your bean as the @shiroPermissionResolver@ bean in @resources.groovy@, for example
+
+{code}
+import com.mycompany.myapp.MyShiroPermissionResolver
+
+beans = {
+   shiroPermissionResolver(MyShiroPermissionResolver)
+}
+{code}
+
+h4. Annotated service methods
+
+Currently only Grails services and other Spring beans can be annotated, so this feature isn't available in controllers. You can use any of @org.apache.shiro.authz.annotation.RequiresAuthentication@, @org.apache.shiro.authz.annotation.RequiresGuest@, @org.apache.shiro.authz.annotation.RequiresPermissions@, @org.apache.shiro.authz.annotation.RequiresRoles@, and @org.apache.shiro.authz.annotation.RequiresUser@. See the Shiro documentation and Javadoc for the annotation syntax.
+
+h4. Using Shiro directly
+
+You should use the annotations to keep from cluttering your code with explicit security checks, but the standard @Subject@ methods will work:
+
+{code}
+import org.apache.shiro.SecurityUtils
+import org.apache.shiro.subject.Subject
+
+...
+
+Subject subject = SecurityUtils.getSubject()
+
+subject.checkPermission('printer:print:lp7200')
+
+subject.isPermitted('printer:print:lp7200')
+
+subject.checkRole('ROLE_ADMIN')
+
+subject.hasRole('ROLE_ADMIN')
+
+subject.isAuthenticated()
+
+... etc
+{code}
