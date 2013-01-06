@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Shiro support for the Spring Security plugin 0.1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#1.%20Introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#2.%20Usage"><strong>2</strong><span>Usage</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#3.%20Configuration"><strong>3</strong><span>Configuration</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p>Shiro support for the Spring Security plugin</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Shiro support for the Spring Security plugin - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Burt Beckwith</p>
+                            <p><strong>Version:</strong> 0.1</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#1.%20Introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#1.1%20History"><strong>1.1</strong><span>History</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#2.%20Usage"><strong>2</strong><span>Usage</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#3.%20Configuration"><strong>3</strong><span>Configuration</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="1. Introduction">1 Introduction</h1>
+The Spring Security Shiro plugin adds some support for using a hybrid approach combining Spring Security and <a href="https://shiro.apache.org/" target="blank">Shiro</a>. It currently only supports Shiro ACLs, since Spring Security ACLs are very powerful but can be very cumbersome to use, and the Shiro approach is straightforward and simple.<p class="paragraph"/>The majority of the authentication and authorization work is still done by Spring Security. This plugin listens for Spring Security authentication events and uses the Spring Security <code>Authentication</code> instance to build and register a Shiro <code>Subject</code> instance. It also removes the Shiro credentials when you explicitly logout.
+
+
+
+<h2 id="1.1 History">1.1 History</h2>
+<ul class="star">
+<li>Version 0.1</li>
+<ul class="star">
+<li>released January 06, 2013</li>
+</ul></ul><p class="paragraph"/>
+
+
+<h1 id="2. Usage">2 Usage</h1>
+The first step is to add a dependency for the plugin in <code>BuildConfig.groovy</code>:<p class="paragraph"/><div class="code"><pre>plugins &#123;
+   &#8230;
+   compile ':spring&#45;security&#45;shiro:0.1'
+&#125;</pre></div><p class="paragraph"/>This should pull in the <code>spring-security-core</code> plugin transitively but you can also explicitly add in a dependency for that, in particular if you want to use a newer version than the plugin requires:<p class="paragraph"/><div class="code"><pre>plugins &#123;
+   &#8230;
+   compile ':spring&#45;security&#45;core:1.2.7.3'
+&#125;</pre></div><p class="paragraph"/><h4>Permissions</h4><p class="paragraph"/>To use the Shiro annotations and methods you need a way to associate roles and permissions with users. The Spring Security Core plugin already handles the role part for you, so you must configure permissions for this plugin. There is no script to create a domain class, but it's a very simple class and easy to create yourself. It can have any name and be in any package, but otherwise the structure must look like this:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">package</span> com.mycompany.myapp<p class="paragraph"/>class Permission &#123;<p class="paragraph"/>   User user
+   <span class="java&#45;object">String</span> permission<p class="paragraph"/>   <span class="java&#45;keyword">static</span> constraints = &#123;
+      permission unique: 'user'
+   &#125;
+&#125;</pre></div><p class="paragraph"/>Register the class name along with the other Spring Security attributes in <code>Config.groovy</code> using the <code>grails.plugins.springsecurity.shiro.permissionDomainClassName</code> property, e.g.<p class="paragraph"/><div class="code"><pre>grails.plugins.springsecurity.shiro.permissionDomainClassName =
+     'com.mycompany.myapp.Permission'</pre></div><p class="paragraph"/>You can add other properties and methods, but the plugin expects that there is a one-to-many between your user and permission classes, that the user property name is "user" (regardless of the actual class name), and the permission property name is "permission".<p class="paragraph"/>If you need more flexibility, or perhaps to create this as a many-to-many, you can replace the Spring bean that looks up permissions. Create a class in src/groovy or src/java that implements the <code>grails.plugin.springsecurity.shiro.ShiroPermissionResolver</code> interface, and define the <code>Set&#60;String&#62; resolvePermissions(String username)</code> method any way you like. Register your bean as the <code>shiroPermissionResolver</code> bean in <code>resources.groovy</code>, for example<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> com.mycompany.myapp.MyShiroPermissionResolver<p class="paragraph"/>beans = &#123;
+   shiroPermissionResolver(MyShiroPermissionResolver)
+&#125;</pre></div><p class="paragraph"/><h4>Annotated service methods</h4><p class="paragraph"/>Currently only Grails services and other Spring beans can be annotated, so this feature isn't available in controllers. You can use any of <code>org.apache.shiro.authz.annotation.RequiresAuthentication</code>, <code>org.apache.shiro.authz.annotation.RequiresGuest</code>, <code>org.apache.shiro.authz.annotation.RequiresPermissions</code>, <code>org.apache.shiro.authz.annotation.RequiresRoles</code>, and <code>org.apache.shiro.authz.annotation.RequiresUser</code>. See the Shiro documentation and Javadoc for the annotation syntax.<p class="paragraph"/><h4>Using Shiro directly</h4><p class="paragraph"/>You should use the annotations to keep from cluttering your code with explicit security checks, but the standard <code>Subject</code> methods will work:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.apache.shiro.SecurityUtils
+<span class="java&#45;keyword">import</span> org.apache.shiro.subject.Subject<p class="paragraph"/>...<p class="paragraph"/>Subject subject = SecurityUtils.getSubject()<p class="paragraph"/>subject.checkPermission('printer:print:lp7200')<p class="paragraph"/>subject.isPermitted('printer:print:lp7200')<p class="paragraph"/>subject.checkRole('ROLE_ADMIN')<p class="paragraph"/>subject.hasRole('ROLE_ADMIN')<p class="paragraph"/>subject.isAuthenticated()<p class="paragraph"/>&#8230; etc</pre></div>
+
+
+
+<h1 id="3. Configuration">3 Configuration</h1>
+There are a few configuration options for the Shiro integration.<p class="paragraph"/><blockquote class="note">
+All of these property overrides must be specified in <code>grails-app/conf/Config.groovy</code> using the <code>grails.plugins.springsecurity</code> suffix, for example
+<div class="code"><pre>grails.plugins.springsecurity.shiro.permissionDomainClassName =
+     'com.mycompany.myapp.Permission'</pre></div>
+</blockquote><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Meaning</strong></th></tr><tr class="table-odd"><td>shiro.active</td><td><code>true</code></td><td>if <code>false</code> the plugin is disabled</td></tr><tr class="table-even"><td>shiro.permissionDomainClassName</td><td>none, must be set</td><td>the full class name of the permission domain class</td></tr><tr class="table-odd"><td>shiro.useCache</td><td><code>true</code></td><td>whether to cache permission lookups; if you disable this they will be loaded from the database for every request</td></tr></table>
+
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-16219500-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</body>
+</html>
