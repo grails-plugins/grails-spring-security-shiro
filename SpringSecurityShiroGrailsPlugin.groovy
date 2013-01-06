@@ -30,7 +30,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 
 class SpringSecurityShiroGrailsPlugin {
 
-	String version = '0.1-SNAPSHOT'
+	String version = '0.1'
 	String grailsVersion = '2.0 > *'
 	List pluginExcludes = [
 		'docs/**',
@@ -42,8 +42,8 @@ class SpringSecurityShiroGrailsPlugin {
 
 	String author = 'Burt Beckwith'
 	String authorEmail = 'beckwithb@vmware.com'
-	String title = 'A bridge between Shiro and Spring Security'
-	String description = 'Shiro support for the Spring Security plugin.'
+	String title = 'Shiro support for the Spring Security plugin'
+	String description = 'Shiro support for the Spring Security plugin'
 	String documentation = 'http://grails.org/plugin/spring-security-shiro'
 
 	String license = 'APACHE'
