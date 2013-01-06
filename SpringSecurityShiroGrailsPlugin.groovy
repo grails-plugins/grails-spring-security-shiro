@@ -126,6 +126,6 @@ class SpringSecurityShiroGrailsPlugin {
 	}
 
 	def doWithApplicationContext = { ctx ->
-		ctx.logoutHandlers << ctx.shiroLogoutHandler
+		ctx.logoutHandlers.add 0, ctx.shiroLogoutHandler // must be before SecurityContextLogoutHandler
 	}
 }
