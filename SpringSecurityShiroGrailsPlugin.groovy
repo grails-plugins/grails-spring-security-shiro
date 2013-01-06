@@ -44,11 +44,11 @@ class SpringSecurityShiroGrailsPlugin {
 	String authorEmail = 'beckwithb@vmware.com'
 	String title = 'Shiro support for the Spring Security plugin'
 	String description = 'Shiro support for the Spring Security plugin'
-	String documentation = 'http://grails.org/plugin/spring-security-shiro'
+	String documentation = 'http://grails-plugins.github.com/grails-spring-security-shiro/'
 
 	String license = 'APACHE'
 	def organization = [name: 'SpringSource', url: 'http://www.springsource.org/']
-	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPSPRINGSECURITYSHIRO']
+	def issueManagement = [system: 'Github', url: 'https://github.com/grails-plugins/grails-spring-security-shiro/issues']
 	def scm = [url: 'https://github.com/grails-plugins/grails-spring-security-shiro']
 
 	private Logger log = LoggerFactory.getLogger('grails.plugin.springsecurity.shiro.SpringSecurityShiroGrailsPlugin')
