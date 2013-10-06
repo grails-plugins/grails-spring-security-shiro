@@ -5,5 +5,6 @@ git clone git@github.com:grails-plugins/grails-spring-security-shiro.git
 cd grails-spring-security-shiro
 grails clean
 grails compile
-#grails publish-plugin --noScm --snapshot --stacktrace
-grails publish-plugin --noScm --stacktrace
+
+#grails publish-plugin --snapshot --stacktrace
+grails publish-plugin --stacktrace
