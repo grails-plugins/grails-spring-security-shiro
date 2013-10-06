@@ -15,7 +15,7 @@ grails.project.dependency.resolution = {
 
 	dependencies {
 
-		String shiroVersion = '1.2.1'
+		String shiroVersion = '1.2.2'
 		def common = ['easymock', 'groovy-all', 'jcl-over-slf4j', 'junit', 'log4j', 'slf4j-log4j12']
 
 		compile "org.apache.shiro:shiro-aspectj:$shiroVersion", {
