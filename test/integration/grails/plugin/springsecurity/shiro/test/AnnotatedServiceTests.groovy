@@ -14,13 +14,13 @@
  */
 package grails.plugin.springsecurity.shiro.test
 
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.shiro.ShiroUtils
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authz.UnauthenticatedException
 import org.apache.shiro.authz.UnauthorizedException
 import org.apache.shiro.util.ThreadContext
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder

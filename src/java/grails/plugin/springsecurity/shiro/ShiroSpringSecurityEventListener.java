@@ -14,9 +14,10 @@
  */
 package grails.plugin.springsecurity.shiro;
 
+import grails.plugin.springsecurity.web.SecurityRequestHolder;
+
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
-import org.codehaus.groovy.grails.plugins.springsecurity.SecurityRequestHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;

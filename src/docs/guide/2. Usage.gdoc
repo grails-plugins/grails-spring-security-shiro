@@ -3,16 +3,7 @@ The first step is to add a dependency for the plugin in @BuildConfig.groovy@:
 {code}
 plugins {
    ...
-   compile ':spring-security-shiro:0.1'
-}
-{code}
-
-This should pull in the @spring-security-core@ plugin transitively but you can also explicitly add in a dependency for that, in particular if you want to use a newer version than the plugin requires:
-
-{code}
-plugins {
-   ...
-   compile ':spring-security-core:1.2.7.3'
+   compile ':spring-security-shiro:1.0-RC1'
 }
 {code}
 
@@ -34,10 +25,10 @@ class Permission {
 }
 {code}
 
-Register the class name along with the other Spring Security attributes in @Config.groovy@ using the @grails.plugins.springsecurity.shiro.permissionDomainClassName@ property, e.g.
+Register the class name along with the other Spring Security attributes in @Config.groovy@ using the @grails.plugin.springsecurity.shiro.permissionDomainClassName@ property, e.g.
 
 {code}
-grails.plugins.springsecurity.shiro.permissionDomainClassName =
+grails.plugin.springsecurity.shiro.permissionDomainClassName =
      'com.mycompany.myapp.Permission'
 {code}
 

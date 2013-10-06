@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import grails.plugin.springsecurity.SecurityFilterPosition
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.shiro.GormShiroPermissionResolver
 import grails.plugin.springsecurity.shiro.ShiroLogoutHandler
 import grails.plugin.springsecurity.shiro.ShiroSpringSecurityEventListener
@@ -22,8 +24,6 @@ import org.apache.shiro.cache.MemoryConstrainedCacheManager
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager
-import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
@@ -68,7 +68,11 @@ class SpringSecurityShiroGrailsPlugin {
 			return
 		}
 
-		println '\nConfiguring Spring Security Shiro ...'
+		boolean printStatusMessages = (conf.printStatusMessages instanceof Boolean) ? conf.printStatusMessages : true
+
+		if (printStatusMessages) {
+			println '\nConfiguring Spring Security Shiro ...'
+		}
 
 		SpringSecurityUtils.registerFilter 'shiroSubjectBindingFilter',
 				SecurityFilterPosition.SECURITY_CONTEXT_FILTER.order + 1
@@ -122,7 +126,9 @@ class SpringSecurityShiroGrailsPlugin {
 
 		shiroLogoutHandler(ShiroLogoutHandler)
 
-		println '... finished configuring Spring Security Shiro\n'
+		if (printStatusMessages) {
+			println '... finished configuring Spring Security Shiro\n'
+		}
 	}
 
 	def doWithApplicationContext = { ctx ->
