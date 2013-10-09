@@ -1,5 +1,7 @@
+plugin.xml
+grails-spring-security-shiro-*.zip
+grails-spring-security-shiro-*.zip.sha1
 *.log
-/target
-/grails-*.zip
-/plugin.xml
 .settings
+/target
+/web-app

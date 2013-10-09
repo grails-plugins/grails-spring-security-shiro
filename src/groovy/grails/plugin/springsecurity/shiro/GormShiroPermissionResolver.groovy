@@ -14,15 +14,16 @@
  */
 package grails.plugin.springsecurity.shiro
 
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
+
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
  */
 class GormShiroPermissionResolver implements ShiroPermissionResolver {
 
-	/** Dependency injection for the application. */
-	def grailsApplication
+	GrailsApplication grailsApplication
 
 	/* (non-Javadoc)
 	 * @see grails.plugin.springsecurity.shiro.ShiroPermissionResolver#resolvePermissions(java.lang.String)
@@ -34,7 +35,7 @@ class GormShiroPermissionResolver implements ShiroPermissionResolver {
 		String permissionClassName = conf.shiro.permissionDomainClassName
 		if (!permissionClassName) {
 			throw new RuntimeException('No value specified for the Shiro permission class; ' +
-				'set the grails.plugins.springsecurity.shiro.permissionDomainClassName attribute')
+				'set the grails.plugin.springsecurity.shiro.permissionDomainClassName attribute')
 		}
 
 		def dc = grailsApplication.getDomainClass(permissionClassName)

@@ -8,12 +8,10 @@ log4j = {
 	      'org.springframework',
 	      'org.hibernate',
 	      'net.sf.ehcache.hibernate'
-	debug 'grails.plugin.springsecurity',
-	      'grails.plugins.springsecurity',
-	      'org.codehaus.groovy.grails.plugins.springsecurity'
+	debug 'grails.plugin.springsecurity'
 }
 
-grails.plugins.springsecurity.userLookup.userDomainClassName = User.name
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = UserRole.name
-grails.plugins.springsecurity.authority.className = Role.name
-grails.plugins.springsecurity.shiro.permissionDomainClassName = Permission.name
+grails.plugin.springsecurity.userLookup.userDomainClassName = User.name
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = UserRole.name
+grails.plugin.springsecurity.authority.className = Role.name
+grails.plugin.springsecurity.shiro.permissionDomainClassName = Permission.name
