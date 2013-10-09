@@ -44,7 +44,7 @@ class SpringSecurityShiroGrailsPlugin {
 	String authorEmail = 'burt@burtbeckwith.com'
 	String title = 'Shiro support for the Spring Security plugin'
 	String description = 'Shiro support for the Spring Security plugin'
-	String documentation = 'http://grails-plugins.github.com/grails-spring-security-shiro/'
+	String documentation = 'http://grails-plugins.github.io/grails-spring-security-shiro/'
 
 	String license = 'APACHE'
 	def organization = [name: 'SpringSource', url: 'http://www.springsource.org/']
