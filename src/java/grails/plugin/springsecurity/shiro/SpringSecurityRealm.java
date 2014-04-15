@@ -35,7 +35,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
@@ -74,12 +74,12 @@ public class SpringSecurityRealm extends AuthorizingRealm {
 		return info;
 	}
 
-	protected User getCurrentUser(String username, Authentication authentication) {
+	protected UserDetails getCurrentUser(String username, Authentication authentication) {
 		if (authentication == null || authenticationTrustResolver.isAnonymous(authentication)) {
 			throw new AccountException("Not logged in or anonymous");
 		}
 
-		User user = (User)authentication.getPrincipal();
+		UserDetails user = (UserDetails)authentication.getPrincipal();
 		if (!user.getUsername().equals(username)) {
 			throw new AccountException("Not logged in as expected user");
 		}
@@ -96,7 +96,7 @@ public class SpringSecurityRealm extends AuthorizingRealm {
 		}
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = getCurrentUser(username, authentication);
+		UserDetails user = getCurrentUser(username, authentication);
 		return new SimpleAuthenticationInfo(username, user.getPassword().toCharArray(), getName());
 	}
 
