@@ -26,10 +26,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
  */
 public class ShiroLogoutHandler implements LogoutHandler {
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.web.authentication.logout.LogoutHandler#logout(
-	 * 	javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)
-	 */
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		SecurityUtils.getSubject().logout();
 	}

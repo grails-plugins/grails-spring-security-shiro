@@ -25,9 +25,6 @@ class GormShiroPermissionResolver implements ShiroPermissionResolver {
 
 	GrailsApplication grailsApplication
 
-	/* (non-Javadoc)
-	 * @see grails.plugin.springsecurity.shiro.ShiroPermissionResolver#resolvePermissions(java.lang.String)
-	 */
 	Set<String> resolvePermissions(String username) {
 
 		def conf = SpringSecurityUtils.securityConfig

@@ -36,9 +36,6 @@ public class ShiroSpringSecurityEventListener implements ApplicationListener<Abs
 	protected SecurityManager securityManager;
 	protected Realm realm;
 
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-	 */
 	public void onApplicationEvent(AbstractAuthenticationEvent event) {
 
 		log(event);
