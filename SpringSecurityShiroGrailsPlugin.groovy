@@ -1,4 +1,4 @@
-/* Copyright 2013 SpringSource.
+/* Copyright 2013-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ class SpringSecurityShiroGrailsPlugin {
 	String documentation = 'http://grails-plugins.github.io/grails-spring-security-shiro/'
 
 	String license = 'APACHE'
-	def organization = [name: 'SpringSource', url: 'http://www.springsource.org/']
-	def issueManagement = [system: 'Github', url: 'https://github.com/grails-plugins/grails-spring-security-shiro/issues']
+	def organization = [name: 'grails', url: 'http://www.grails.org/']
+	def issueManagement = [url: 'https://github.com/grails-plugins/grails-spring-security-shiro/issues']
 	def scm = [url: 'https://github.com/grails-plugins/grails-spring-security-shiro']
 
 	private Logger log = LoggerFactory.getLogger('grails.plugin.springsecurity.shiro.SpringSecurityShiroGrailsPlugin')
