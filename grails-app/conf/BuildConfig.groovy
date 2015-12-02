@@ -1,6 +1,7 @@
 grails.project.work.dir = 'target'
 grails.project.docs.output.dir = 'docs/manual' // for backwards-compatibility, the docs are checked into gh-pages branch
 
+grails.project.dependency.resolver = 'maven'
 grails.project.dependency.resolution = {
 
 	inherits 'global'
@@ -10,12 +11,11 @@ grails.project.dependency.resolution = {
 		grailsCentral()
 		mavenLocal()
 		mavenCentral()
-		mavenRepo 'http://repo.spring.io/milestone' // TODO remove
 	}
 
 	dependencies {
 
-		String shiroVersion = '1.2.2'
+		String shiroVersion = '1.2.4'
 		def common = ['easymock', 'groovy-all', 'jcl-over-slf4j', 'junit', 'log4j', 'slf4j-log4j12']
 
 		compile "org.apache.shiro:shiro-aspectj:$shiroVersion", {
@@ -36,13 +36,13 @@ grails.project.dependency.resolution = {
 	}
 
 	plugins {
-		compile ':spring-security-core:2.0-RC2'
+		compile ':spring-security-core:2.0-RC6'
 
-		compile(":hibernate:$grailsVersion") {
+		compile ':hibernate:3.6.10.18', {
 			export = false
 		}
 
-		build ':release:2.2.1', ':rest-client-builder:1.0.3', {
+		build ':release:3.1.2', ':rest-client-builder:2.1.1', {
 			export = false
 		}
 	}
