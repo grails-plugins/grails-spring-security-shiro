@@ -37,7 +37,7 @@ class GormShiroPermissionResolver implements ShiroPermissionResolver {
 
 		def dc = grailsApplication.getDomainClass(permissionClassName)
 		if (!dc) {
-			throw new RuntimeException("The specified permission domain class '$userClassName' is not a domain class")
+			throw new RuntimeException("The specified permission domain class '$permissionClassName' is not a domain class")
 		}
 
 		Class<?> Permission = dc.clazz
