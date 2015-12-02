@@ -16,11 +16,14 @@ package grails.plugin.springsecurity.shiro.test
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.shiro.ShiroUtils
+import grails.test.spock.IntegrationSpec
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authz.UnauthenticatedException
 import org.apache.shiro.authz.UnauthorizedException
+import org.apache.shiro.realm.Realm
 import org.apache.shiro.util.ThreadContext
+import org.apache.shiro.web.mgt.WebSecurityManager
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder
@@ -28,17 +31,16 @@ import org.springframework.security.core.context.SecurityContextHolder
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
  */
-class AnnotatedServiceTests extends GroovyTestCase {
+class AnnotatedServiceSpec extends IntegrationSpec {
 
-	def shiroSecurityManager
-	def springSecurityRealm
+	WebSecurityManager shiroSecurityManager
+	Realm springSecurityRealm
 	def testService
 
 	private request = new MockHttpServletRequest()
 	private response = new MockHttpServletResponse()
 
-	protected void setUp() {
-		super.setUp()
+	void setup() {
 
 		User user1 = new User(username: 'user1', password: 'password', enabled: true).save(failOnError: true)
 		User user2 = new User(username: 'user2', password: 'password', enabled: true).save(failOnError: true)
@@ -65,170 +67,236 @@ class AnnotatedServiceTests extends GroovyTestCase {
 		assert 6 == Permission.count()
 
 		ThreadContext.bind shiroSecurityManager
+
+		logout()
 	}
 
 	void testOnePermission() {
 
-		shouldFail(UnauthenticatedException) {
-			testService.adminPrinter()
-		}
+		when:
+		testService.adminPrinter()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		shouldFail(UnauthorizedException) {
-			testService.adminPrinter()
-		}
-		logout()
+		testService.adminPrinter()
 
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
 		login 'user2'
-		assert testService.adminPrinter()
-		logout()
 
-		shouldFail(UnauthenticatedException) {
-			testService.adminPrinter()
-		}
+		then:
+		testService.adminPrinter()
+
+		when:
+		logout()
+		testService.adminPrinter()
+
+		then:
+		thrown UnauthenticatedException
 	}
 
 	void testRequireTwoPermissions() {
-		shouldFail(UnauthenticatedException) {
-			testService.requireJumpAndKick()
-		}
+		when:
+		testService.requireJumpAndKick()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user2'
-		shouldFail(UnauthorizedException) {
-			testService.requireJumpAndKick()
-		}
-		logout()
+		testService.requireJumpAndKick()
 
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
 		login 'user3'
-		assert testService.requireJumpAndKick()
-		logout()
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireJumpAndKick()
-		}
+		then:
+		testService.requireJumpAndKick()
+
+		when:
+		logout()
+		testService.requireJumpAndKick()
+
+		then:
+		thrown UnauthenticatedException
 	}
 
 	void testRequireOneOrTwoPermissions() {
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireJumpOrKick()
-		}
+		when:
+		testService.requireJumpOrKick()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		shouldFail(UnauthorizedException) {
-			testService.requireJumpOrKick()
-		}
-		logout()
+		testService.requireJumpOrKick()
 
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
 		login 'user2'
-		assert testService.requireJumpOrKick()
-		logout()
 
+		then:
+		testService.requireJumpOrKick()
+
+		when:
+		logout()
 		login 'user3'
-		assert testService.requireJumpOrKick()
-		logout()
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireJumpOrKick()
-		}
+		then:
+		testService.requireJumpOrKick()
+
+		when:
+		logout()
+		testService.requireJumpOrKick()
+
+		then:
+		thrown UnauthenticatedException
 	}
 
 	void testNonexistentPermissions() {
 
-		shouldFail(UnauthenticatedException) {
-			testService.impossiblePermissions()
-		}
+		when:
+		testService.impossiblePermissions()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		shouldFail(UnauthorizedException) {
-			testService.impossiblePermissions()
-		}
+		testService.impossiblePermissions()
+
+		then:
+		thrown UnauthorizedException
 	}
 
 	void testRequiresUser() {
-		shouldFail(UnauthenticatedException) {
-			testService.requireUser()
-		}
+		when:
+		testService.requireUser()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		assert testService.requireUser()
+
+		then:
+		testService.requireUser()
 	}
 
 	void testRequireOneOrTwoRoles() {
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireUserOrAdmin()
-		}
+		when:
+		testService.requireUserOrAdmin()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		assert testService.requireUserOrAdmin()
-		logout()
 
+		then:
+		testService.requireUserOrAdmin()
+
+		when:
+		logout()
 		login 'user2'
-		assert testService.requireUserOrAdmin()
-		logout()
 
+		then:
+		testService.requireUserOrAdmin()
+
+		when:
+		logout()
 		login 'user3'
-		shouldFail(UnauthorizedException) {
-			testService.requireUserOrAdmin()
-		}
+		testService.requireUserOrAdmin()
+
+		then:
+		thrown UnauthorizedException
 		logout()
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireUserOrAdmin()
-		}
+		when:
+		testService.requireUserOrAdmin()
+
+		then:
+		thrown UnauthenticatedException
 	}
 
 	void testRequireTwoRoles() {
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireUserAndAdmin()
-		}
+		when:
+		testService.requireUserAndAdmin()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		shouldFail(UnauthorizedException) {
-			testService.requireUserAndAdmin()
-		}
-		logout()
+		testService.requireUserAndAdmin()
 
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
 		login 'user2'
-		assert testService.requireUserAndAdmin()
-		logout()
 
+		then:
+		testService.requireUserAndAdmin()
+
+		when:
+		logout()
 		login 'user3'
-		shouldFail(UnauthorizedException) {
-			testService.requireUserAndAdmin()
-		}
-		logout()
+		testService.requireUserAndAdmin()
 
-		shouldFail(UnauthenticatedException) {
-			testService.requireUserAndAdmin()
-		}
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
+		testService.requireUserAndAdmin()
+
+		then:
+		thrown UnauthenticatedException
 	}
 
 	void testRequiresGuest() {
-		assert testService.requireGuest()
+		expect:
+		testService.requireGuest()
 
+		when:
 		login 'user1'
-		String message = shouldFail(UnauthenticatedException) {
-			testService.requireGuest()
-		}
-		assert message.startsWith('Attempting to perform a guest-only operation')
+		testService.requireGuest()
+
+		then:
+		UnauthenticatedException e = thrown()
+		e.message.startsWith 'Attempting to perform a guest-only operation'
 	}
 
 	void testRequiresAuthentication() {
-		shouldFail(UnauthenticatedException) {
-			testService.requireAuthentication()
-		}
+		when:
+		testService.requireAuthentication()
 
+		then:
+		thrown UnauthenticatedException
+
+		when:
 		login 'user1'
-		assert testService.requireAuthentication()
-	}
 
-	@Override
-	protected void tearDown() {
-		super.tearDown()
-		logout()
+		then:
+		testService.requireAuthentication()
 	}
 
 	private void login(String username) {
@@ -239,7 +307,7 @@ class AnnotatedServiceTests extends GroovyTestCase {
 	}
 
 	private void logout() {
-		SecurityContextHolder.context.authentication = null
+		SecurityContextHolder.clearContext()
 		SecurityUtils.subject.logout()
 	}
 }
