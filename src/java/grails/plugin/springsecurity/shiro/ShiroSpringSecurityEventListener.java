@@ -50,9 +50,7 @@ public class ShiroSpringSecurityEventListener implements ApplicationListener<Abs
 	}
 
 	protected void log(AbstractAuthenticationEvent event) {
-		if (log.isDebugEnabled()) {
-			log.debug("on" + event.getClass().getSimpleName() + " for Authentication {}", event.getAuthentication());
-		}
+		log.debug("on{} for Authentication {}", event.getAuthentication(), event.getClass().getSimpleName());
 	}
 
 	/**

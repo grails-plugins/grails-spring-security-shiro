@@ -49,9 +49,7 @@ class ShiroUtils {
 				new HttpServletSession(request.getSession(), host),
 				true, request, response, securityManager)
 
-		if (log.debugEnabled) {
-			log.debug 'Binding subject for principal {} from host {}', username, host
-		}
+		log.debug 'Binding subject for principal {} from host {}', username, host
 
 		new SubjectThreadState(subject).bind()
 	}
