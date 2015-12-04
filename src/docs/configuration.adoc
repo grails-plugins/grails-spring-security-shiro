@@ -1,0 +1,22 @@
+[[configuration]]
+== Configuration
+
+There are a few configuration options for the Shiro integration.
+
+[NOTE]
+====
+All of these property overrides must be specified in `grails-app/conf/application.groovy` (or `application.yml`) using the `grails.plugin.springsecurity` suffix, for example
+[source,java]
+----
+grails.plugin.springsecurity.shiro.permissionDomainClassName =
+     'com.mycompany.myapp.Permission'
+----
+====
+
+[width="100%",options="header"]
+|====================
+| *Name* | *Default* | *Meaning*
+| shiro.active | `true` | if `false` the plugin is disabled
+| shiro.permissionDomainClassName | none, must be set | the full class name of the permission domain class
+| shiro.useCache | `true` | whether to cache permission lookups; if you disable this they will be loaded from the database for every request
+|====================
