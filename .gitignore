@@ -2,6 +2,9 @@ plugin.xml
 grails-spring-security-shiro-*.zip
 grails-spring-security-shiro-*.zip.sha1
 *.log
-.settings
+/.gradle
+/.idea
+/.settings
+/build
 /target
 /web-app
