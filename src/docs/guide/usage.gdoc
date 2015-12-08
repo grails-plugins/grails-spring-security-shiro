@@ -3,7 +3,7 @@ The first step is to add a dependency for the plugin in @BuildConfig.groovy@:
 {code}
 plugins {
    ...
-   compile ':spring-security-shiro:1.0-RC1'
+   compile ':spring-security-shiro:1.0.0'
 }
 {code}
 
@@ -46,7 +46,7 @@ beans = {
 
 h4. Annotated service methods
 
-Currently only Grails services and other Spring beans can be annotated, so this feature isn't available in controllers. You can use any of @org.apache.shiro.authz.annotation.RequiresAuthentication@, @org.apache.shiro.authz.annotation.RequiresGuest@, @org.apache.shiro.authz.annotation.RequiresPermissions@, @org.apache.shiro.authz.annotation.RequiresRoles@, and @org.apache.shiro.authz.annotation.RequiresUser@. See the Shiro documentation and Javadoc for the annotation syntax.
+Currently only Grails services and other Spring beans can be annotated, so this feature isn't available in controllers. You can use any of [RequiresAuthentication|https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresAuthentication.html], [RequiresGuest|https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresGuest.html], [RequiresPermissions|https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresPermissions.html], [RequiresRoles|https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresRoles.html], and [RequiresUser|https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresUser.html]. See the [Shiro documentation|https://shiro.apache.org/documentation.html] and [Javadoc|https://shiro.apache.org/static/1.2.3/apidocs/] for the annotation syntax.
 
 h4. Using Shiro directly
 

@@ -30,8 +30,8 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 
 class SpringSecurityShiroGrailsPlugin {
 
-	String version = '1.0-RC1'
-	String grailsVersion = '2.0 > *'
+	String version = '1.0.0'
+	String grailsVersion = '2.3 > *'
 	List pluginExcludes = [
 		'docs/**',
 		'src/docs/**',
