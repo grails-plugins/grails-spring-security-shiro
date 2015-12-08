@@ -57,7 +57,7 @@ dependencies {
 	provided 'org.grails:grails-dependencies'
 	provided 'org.grails:grails-web-boot'
 
-	compile 'org.grails.plugins:spring-security-core:3.0.0.M3'
+	compile 'org.grails.plugins:spring-security-core:3.0.0'
 
 	String shiroVersion = '1.2.4'
 	def common = ['easymock', 'groovy-all', 'jcl-over-slf4j', 'junit', 'log4j', 'slf4j-log4j12']

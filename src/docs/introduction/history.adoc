@@ -1,9 +1,9 @@
 === History
 
-* Version 3.0.0.M1
-** released December ??, 2015
+* Version 3.0.0
+** released December 8, 2015
 * Version 1.0.0
-** released December ??, 2015
+** released December 7, 2015
 * Version 1.0-RC1
 ** released October 05, 2013
 * Version 0.1
