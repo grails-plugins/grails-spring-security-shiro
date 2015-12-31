@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.springsecurity.shiro.test
+package test
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
@@ -21,8 +21,8 @@ class Role {
 
 	String authority
 
-	static mapping = {
-		cache true
+	Role(String authority) {
+		this.authority = authority
 	}
 
 	static constraints = {

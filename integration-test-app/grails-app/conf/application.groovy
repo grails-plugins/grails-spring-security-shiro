@@ -1,7 +1,7 @@
-import grails.plugin.springsecurity.shiro.test.Permission
-import grails.plugin.springsecurity.shiro.test.Role
-import grails.plugin.springsecurity.shiro.test.User
-import grails.plugin.springsecurity.shiro.test.UserRole
+import test.Permission
+import test.Role
+import test.User
+import test.UserRole
 
 grails {
 	plugin {

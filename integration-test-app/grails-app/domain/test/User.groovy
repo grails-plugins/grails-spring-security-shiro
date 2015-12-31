@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.springsecurity.shiro.test
+package test
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
@@ -23,10 +23,16 @@ class User {
 
 	String username
 	String password
-	boolean enabled
+	boolean enabled = true
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+
+	User(String username) {
+		this()
+		this.username = username
+		password = 'password'
+	}
 
 	static constraints = {
 		username blank: false, unique: true

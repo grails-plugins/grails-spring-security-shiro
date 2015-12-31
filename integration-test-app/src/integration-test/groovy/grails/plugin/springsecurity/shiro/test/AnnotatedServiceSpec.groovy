@@ -46,31 +46,6 @@ class AnnotatedServiceSpec extends Specification {
 	private response = new MockHttpServletResponse()
 
 	void setup() {
-
-		User user1 = new User(username: 'user1', password: 'password', enabled: true).save(failOnError: true)
-		User user2 = new User(username: 'user2', password: 'password', enabled: true).save(failOnError: true)
-		User user3 = new User(username: 'user3', password: 'password', enabled: true).save(failOnError: true)
-		Role roleAdmin = new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
-		Role roleUser = new Role(authority: 'ROLE_USER').save(failOnError: true)
-
-		new Permission(user: user1, permission: 'printer:print:*').save(failOnError: true)
-
-		new Permission(user: user2, permission: 'printer:print:*').save(failOnError: true)
-		new Permission(user: user2, permission: 'printer:maintain:epsoncolor').save(failOnError: true)
-		new Permission(user: user2, permission: 'action:kick').save(failOnError: true)
-
-		new Permission(user: user3, permission: 'action:jump').save(failOnError: true)
-		new Permission(user: user3, permission: 'action:kick').save(failOnError: true)
-
-		UserRole.create user1, roleAdmin, true
-		UserRole.create user2, roleAdmin, true
-		UserRole.create user2, roleUser, true
-
-		assert 2 == Role.count()
-		assert 3 == User.count()
-		assert 3 == UserRole.count()
-		assert 6 == Permission.count()
-
 		assert shiroSecurityManager
 		ThreadContext.bind shiroSecurityManager
 

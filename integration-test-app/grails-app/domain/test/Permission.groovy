@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.springsecurity.shiro.test
+package test
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
@@ -22,6 +22,11 @@ class Permission {
 	User user
 	Role role
 	String permission
+
+	Permission(User user, String permission) {
+		this.user = user
+		this.permission = permission
+	}
 
 	static constraints = {
 		role nullable: true
