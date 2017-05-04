@@ -1,0 +1,20 @@
+language: groovy
+sudo: false
+cache:
+  directories:
+  - "$HOME/.gradle/caches"
+  - "$HOME/.gradle/wrapper"
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+jdk:
+- oraclejdk8
+install: true
+script: "./travis-build.sh"
+env:
+  global:
+  - secure: P0hOLy6be2FbLQ4F967aH0LXfcULpL/m3umQOG6tibHMxycqRzsUsbY39gF4Y+VDCMzxPT2DFg3zM+i4Nt8npLcLmcn/T56cjWQ0p++5/q5DvbItyZFAdV3FDUtDohQl37aWewXJHOXuPe6VSwa8KkjksH7i7AO0W9OSZiIp2WM=
+  - secure: gvLsQ+CPQSQE9jNmb+LhWXKRPho0hjhxJKZkyrm2wnPDW1pbwBLxJy0RVFPsxrWYyL/kZZSEY8QvIwibBYW8OAP6weA/DIGz4y5o0IaOpEJT82kSaGggE6LaNOkjDDATDkLEhZoORVqNz9tlj1w0Eg+VzA0RO+CAzrObjKA8E/Y=
+  - secure: 0Bq+Jg2PRW37sQQaMVFUti2SfDurAYAYOosaDFfpnEhvEqnZJiibtB0EExM7wdH0ew63DES9xL2jC88yCK5BUaW/BP8hZtPF1pBCIr5+f06yHCr5PVVQmr6eCkBYYRzZM2dVAKvhs6eA+HbE7NhHnX5FhAqHULWloSfFlh3YPb0=
+  - secure: hc2XHqJsq15ks4tSYDVekG2PAgsIWrfPA0OX7tZ8yfnTXOLmOblzk0cR1vYTTqPkSk3lMBLtoZ/m4Wn/+T1IUT/TkTwFs623DixExIvQWwLIMxh55YfVdd65J3tQIgX1ceNfrRuOO+ujwsTIeyLpSMSIW92ZNmmIYl3WH62wz+E=
+  - secure: oSIhI5H9YpyHAW9l5je+bHbsQ7df6kcbdkO7yZCHQwqt4R34wVY1TsaPEIntvHt4Be29FzMJPnewtrYPFf3wmCpMzqIJCBu7ugpWxPdDLzYSEExXTQMhcxc0J/2I36dxyoFkWk/FWR5EFyjKJLPHff1k5SY4GmGPHLW6MSmuSOc=
+  - secure: AO/M1Z60vrrRWsO9Sjoia6dXAG21sar2F7UW3EAbcAKoO7lQbBdHE4d0P5UsDOgKSnbwOYWw8ZhtZyBpMIscVDjTZfl0lJ/9GwfUrluxBinNHIr1RYS4TQeqw6dixaVXgjXdRRiPVAYa7K4XIGiClKOcmOkRLQnLY4hIaznbzK8=
