@@ -14,7 +14,7 @@ echo "travis tag: $TRAVIS_TAG"
 
 # if [[ -n $TRAVIS_TAG ]] && [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
     
-    ./gradlew bintrayUpload --stacktrace
+    # ./gradlew bintrayUpload --stacktrace
 
     ./publish-docs.sh
 
