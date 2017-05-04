@@ -10,17 +10,12 @@ rm -rf build
 
 echo "branch: $TRAVIS_BRANCH"
 echo "pullrequest: $TRAVIS_PULL_REQUEST"
+echo "travis tag: $TRAVIS_TAG"
 
-if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
+# if [[ -n $TRAVIS_TAG ]] && [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then
     
-    echo "In master no pullrequest - tag: $TRAVIS_TAG"
+    ./gradlew bintrayUpload --stacktrace
 
-    if [[ -n $TRAVIS_TAG ]]; then
+    ./publish-docs.sh
 
-        ./gradlew bintrayUpload --stacktrace
-
-        ./publish-docs.sh
-
-    fi
-
-fi
+# fi
