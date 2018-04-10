@@ -1,7 +1,7 @@
-import test.Permission
-import test.Role
-import test.User
-import test.UserRole
+import integration.test.app.Permission
+import integration.test.app.Role
+import integration.test.app.User
+import integration.test.app.UserRole
 
 grails {
 	plugin {

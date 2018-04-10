@@ -12,12 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.springsecurity.shiro.test
+package integration.test.app
 
+import grails.gorm.transactions.Rollback
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.shiro.ShiroUtils
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.testing.mixin.integration.Integration
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authz.UnauthenticatedException
 import org.apache.shiro.authz.UnauthorizedException
@@ -27,7 +28,6 @@ import org.apache.shiro.web.mgt.WebSecurityManager
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 /**
@@ -40,7 +40,7 @@ class AnnotatedServiceSpec extends Specification {
 
 	WebSecurityManager shiroSecurityManager
 	Realm springSecurityRealm
-	def testService
+	TestService testService
 
 	private request = new MockHttpServletRequest()
 	private response = new MockHttpServletResponse()
@@ -50,6 +50,18 @@ class AnnotatedServiceSpec extends Specification {
 		ThreadContext.bind shiroSecurityManager
 
 		logout()
+	}
+
+	private void login(String username) {
+		SpringSecurityUtils.reauthenticate username, 'password'
+		request.getSession()
+		ShiroUtils.bindSubject SecurityContextHolder.context.authentication,
+				springSecurityRealm, shiroSecurityManager, request, response
+	}
+
+	private void logout() {
+		SecurityContextHolder.clearContext()
+		SecurityUtils.subject.logout()
 	}
 
 	void testOnePermission() {
@@ -280,15 +292,4 @@ class AnnotatedServiceSpec extends Specification {
 		testService.requireAuthentication()
 	}
 
-	private void login(String username) {
-		SpringSecurityUtils.reauthenticate username, 'password'
-		request.getSession()
-		ShiroUtils.bindSubject SecurityContextHolder.context.authentication,
-			springSecurityRealm, shiroSecurityManager, request, response
-	}
-
-	private void logout() {
-		SecurityContextHolder.clearContext()
-		SecurityUtils.subject.logout()
-	}
 }

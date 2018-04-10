@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.springsecurity.shiro.test
+package integration.test.app
 
 import org.apache.shiro.authz.annotation.Logical
 import org.apache.shiro.authz.annotation.RequiresAuthentication

@@ -12,48 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test
+package integration.test.app
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
  */
-class User {
+class Role {
 
-	transient springSecurityService
+	String authority
 
-	String username
-	String password
-	boolean enabled = true
-	boolean accountExpired
-	boolean accountLocked
-	boolean passwordExpired
-
-	User(String username) {
-		this()
-		this.username = username
-		password = 'password'
+	Role(String authority) {
+		this.authority = authority
 	}
 
 	static constraints = {
-		username blank: false, unique: true
-		password blank: false
-	}
-
-	Set<Role> getAuthorities() {
-		UserRole.findAllByUser(this).collect { it.role } as Set
-	}
-
-	def beforeInsert() {
-		encodePassword()
-	}
-
-	def beforeUpdate() {
-		if (isDirty('password')) {
-			encodePassword()
-		}
-	}
-
-	protected void encodePassword() {
-		password = springSecurityService.encodePassword(password)
+		authority blank: false, unique: true
 	}
 }

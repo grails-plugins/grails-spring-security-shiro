@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test
+package integration.test.app
 
 import org.apache.commons.lang.builder.HashCodeBuilder
 
@@ -46,7 +46,7 @@ class UserRole implements Serializable {
 	}
 
 	static UserRole create(User user, Role role, boolean flush = false) {
-		new UserRole(user: user, role: role).save(flush: flush, insert: true)
+		new UserRole(user: user, role: role).save(flush: flush)
 	}
 
 	static boolean remove(User user, Role role, boolean flush = false) {
