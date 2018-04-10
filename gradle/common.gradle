@@ -7,7 +7,7 @@ project.ext.setIfNotSet = { String name, value, boolean ext = true ->
 	}
 }
 
-setIfNotSet 'gradleWrapperVersion', '2.10'
+setIfNotSet 'gradleWrapperVersion', '3.5'
 setIfNotSet 'group', 'org.grails.plugins', false
 setIfNotSet 'sourceCompatibility', 1.7
 setIfNotSet 'targetCompatibility', 1.7
@@ -54,8 +54,4 @@ test {
 	}
 
 	beforeTest { descriptor -> logger.quiet " -- $descriptor" }
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = gradleWrapperVersion
 }

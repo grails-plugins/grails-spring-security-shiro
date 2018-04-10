@@ -1,12 +1,7 @@
-apply from: 'gradle/common.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'spring-boot'
 apply plugin: 'org.grails.grails-plugin'
+apply plugin:"org.grails.grails-plugin-publish"
+apply from: 'gradle/common.gradle'
 apply plugin: 'org.asciidoctor.convert'
-
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
 
 setIfNotSet 'issueTrackerUrl', project.vcsUrl + '/issues'
 setIfNotSet 'websiteUrl', project.vcsUrl
@@ -53,4 +48,16 @@ task docs(dependsOn: asciidoctor) << {
 		into new File(buildDir, 'docs').path
 		include '**/*.png'
 	}
+}
+
+grailsPublish {
+	user = 'user'
+	key = 'key'
+	githubSlug = 'foo/bar'
+	license {
+		name = 'Apache-2.0'
+	}
+	title = "My Plugin"
+	desc = "Full plugin description"
+	developers = [johndoe:"John Doe"]
 }

@@ -15,16 +15,11 @@ buildscript {
 	}
 }
 
-plugins {
-	id 'io.spring.dependency-management' version '0.5.4.RELEASE'
-	id 'com.jfrog.bintray' version '1.2'
-}
-
 apply from: 'gradle/plugin.gradle'
 
 dependencies {
 
-	compile 'org.grails.plugins:spring-security-core:3.1.2'
+	compile 'org.grails.plugins:spring-security-core:3.2.1'
 
 	String shiroVersion = '1.2.4'
 	['aspectj', 'core', 'spring', 'web'].each {
