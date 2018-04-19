@@ -51,6 +51,7 @@ task docs(dependsOn: asciidoctor) << {
 }
 
 grailsPublish {
+	userOrg = 'grails'
 	githubSlug = 'grails-plugins/grails-spring-security-shiro'
 	license {
 		name = 'Apache-2.0'
