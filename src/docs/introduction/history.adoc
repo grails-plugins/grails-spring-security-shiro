@@ -1,9 +1,17 @@
 === History
 
+* Version 3.1.1
+** released April 19, 2018
+** Update Spring Security Shiro version to 1.4.0
+
 * Version 3.1.0
 ** released April 19, 2018
 ** Support for Grails 3.3.0
 ** Updated to Spring Security Core v3.2.1
+
+* Version 3.0.1
+** released April 19, 2018
+** Updated Shiro version to 1.4.0
 
 * Version 3.0.0
 ** released December 8, 2015
