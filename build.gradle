@@ -1,6 +1,8 @@
 buildscript {
 	ext {
 		grailsVersion = project.grailsVersion
+		shiroVersion = project.shiroVersion
+		springSecurityCoreVersion = project.springSecurityCoreVersion
 	}
 	repositories {
 		mavenLocal()
@@ -24,9 +26,8 @@ apply from: 'gradle/plugin.gradle'
 
 dependencies {
 
-	compile 'org.grails.plugins:spring-security-core:3.1.2'
+	compile "org.grails.plugins:spring-security-core:$springSecurityCoreVersion"
 
-	String shiroVersion = '1.2.4'
 	['aspectj', 'core', 'spring', 'web'].each {
 		compile "org.apache.shiro:shiro-$it:$shiroVersion"
 	}
