@@ -1,12 +1,7 @@
-apply from: 'gradle/common.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'spring-boot'
 apply plugin: 'org.grails.grails-plugin'
+apply plugin:"org.grails.grails-plugin-publish"
+apply from: 'gradle/common.gradle'
 apply plugin: 'org.asciidoctor.convert'
-
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
 
 setIfNotSet 'issueTrackerUrl', project.vcsUrl + '/issues'
 setIfNotSet 'websiteUrl', project.vcsUrl
@@ -53,4 +48,20 @@ task docs(dependsOn: asciidoctor) << {
 		into new File(buildDir, 'docs').path
 		include '**/*.png'
 	}
+}
+
+grailsPublish {
+	githubSlug = 'grails-plugins/grails-spring-security-shiro'
+	license {
+		name = 'Apache-2.0'
+	}
+	title = "Spring Security Shiro"
+	developers = [
+			burtBeckwith: "Burt Beckwith",
+			puneetbehl: "Puneet Behl",
+			sdelamo: "Sergio del Amo"
+	]
+	desc = """
+The Spring Security Shiro plugin adds some support for using a hybrid approach combining Spring Security and Shiro. It currently only supports Shiro ACLs, since Spring Security ACLs are very powerful but can be very cumbersome to use, and the Shiro approach is straightforward and simple.
+"""
 }

@@ -12,20 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test
+package integration.test.app
 
 /**
  * @author <a href='mailto:burt@burtbeckwith.com'>Burt Beckwith</a>
  */
-class Role {
+class User {
 
-	String authority
+	String username
+	String password
+	boolean enabled = true
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
 
-	Role(String authority) {
-		this.authority = authority
+	User(String username) {
+		this()
+		this.username = username
+		password = 'password'
 	}
 
 	static constraints = {
-		authority blank: false, unique: true
+		username blank: false, unique: true
+		password blank: false
+	}
+
+	Set<Role> getAuthorities() {
+		UserRole.findAllByUser(this).collect { it.role } as Set
 	}
 }

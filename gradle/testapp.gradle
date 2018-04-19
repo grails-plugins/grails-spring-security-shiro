@@ -16,15 +16,17 @@ project.ext.pluginName = pluginDir.name - 'grails-'
 
 dependencies {
 	compile "org.grails.plugins:$pluginName:$pluginVersion"
-	compile 'com.h2database:h2:1.4.190'
 	compile 'org.grails:grails-dependencies'
 	compile 'org.springframework.boot:spring-boot-autoconfigure'
 	compile 'org.springframework.boot:spring-boot-starter-logging'
 	compile 'org.springframework.boot:spring-boot-starter-tomcat'
 	console 'org.grails:grails-console'
-	runtime 'org.grails.plugins:asset-pipeline'
+	runtime "com.h2database:h2"
 	testCompile 'org.gebish:geb-core:0.12.2'
-	testCompile 'org.grails.plugins:geb'
+
+	testCompile "org.grails:grails-gorm-testing-support"
+	testCompile "org.grails.plugins:geb"
+	testCompile "org.grails:grails-web-testing-support"
 
 	String seleniumVersion = '2.48.2'
 	// testCompile 'com.github.detro:phantomjsdriver:1.2.0'

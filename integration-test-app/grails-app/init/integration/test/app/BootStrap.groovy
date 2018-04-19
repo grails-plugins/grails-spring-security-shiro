@@ -1,7 +1,4 @@
-import test.Permission
-import test.Role
-import test.User
-import test.UserRole
+package integration.test.app
 
 class BootStrap {
 
