@@ -22,9 +22,6 @@ security {
 
 		useCache = true
 
-		attributeSourceAdvisor {
-
-			active = true
-		}
+		inspectShiroAnnotations true
 	}
 }

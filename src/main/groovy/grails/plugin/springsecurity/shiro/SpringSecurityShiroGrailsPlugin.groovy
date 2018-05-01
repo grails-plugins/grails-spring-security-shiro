@@ -74,7 +74,7 @@ class SpringSecurityShiroGrailsPlugin extends Plugin {
 			proxyTargetClass = true
 		}
 
-		if (conf.shiro.attributeSourceAdvisor.active) {
+		if (conf.shiro.inspectShiroAnnotations) {
 			shiroAttributeSourceAdvisor(AuthorizationAttributeSourceAdvisor) {
 				securityManager = ref('shiroSecurityManager')
 			}
