@@ -21,5 +21,7 @@ security {
 		permissionDomainClassName = null // must be set
 
 		useCache = true
+
+		inspectShiroAnnotations = true
 	}
 }
