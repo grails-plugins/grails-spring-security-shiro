@@ -22,6 +22,6 @@ security {
 
 		useCache = true
 
-		inspectShiroAnnotations true
+		inspectShiroAnnotations = true
 	}
 }
