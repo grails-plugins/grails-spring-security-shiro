@@ -3,6 +3,7 @@
 * Version 3.1.1
 ** released April 19, 2018
 ** Update Spring Security Shiro version to 1.4.0
+** Added a configuration to disable shiroAttributeSourceAdvisor
 
 * Version 3.1.0
 ** released April 19, 2018
