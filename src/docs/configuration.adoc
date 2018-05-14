@@ -15,8 +15,9 @@ grails.plugin.springsecurity.shiro.permissionDomainClassName =
 
 [width="100%",options="header"]
 |====================
-| *Name* | *Default* | *Meaning*
-| shiro.active | `true` | if `false` the plugin is disabled
-| shiro.permissionDomainClassName | none, must be set | the full class name of the permission domain class
-| shiro.useCache | `true` | whether to cache permission lookups; if you disable this they will be loaded from the database for every request
+| *Name*                            | *Default*           | *Meaning*
+| shiro.active                      | `true`              | if `false` the plugin is disabled
+| shiro.permissionDomainClassName   | none, must be set   | the full class name of the permission domain class
+| shiro.useCache                    | `true`              | whether to cache permission lookup; if you disable this they will be loaded from the database for every request
+| shiro.inspectShiroAnnotations     | `true`              | Whether to enable/disable shiroAttributeSourceAdvisor
 |====================
