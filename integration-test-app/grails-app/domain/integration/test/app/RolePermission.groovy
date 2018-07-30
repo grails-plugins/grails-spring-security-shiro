@@ -12,18 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-security {
+package integration.test.app
 
-	shiro {
+class RolePermission {
+	Role role
+	String permission
 
-		active = true
+	RolePermission(Role role, String permission) {
+		this.role = role
+		this.permission = permission
+	}
 
-		permissionDomainClassName = null // must be set
-
-		rolePermissionDomainClassName = null // if set, will use Role Permissions
-
-		useCache = true
-
-		inspectShiroAnnotations = true
+	static constraints = {
+		permission unique: 'role'
 	}
 }

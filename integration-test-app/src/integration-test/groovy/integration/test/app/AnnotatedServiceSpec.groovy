@@ -176,6 +176,49 @@ class AnnotatedServiceSpec extends Specification {
 		thrown UnauthorizedException
 	}
 
+	void testRolePermissions() {
+
+		when:
+		testService.requirePrinterAdminPermissions()
+
+		then:
+		thrown UnauthenticatedException
+
+		when:
+		login 'user1'
+
+		then:
+		testService.requirePrinterAdminPermissions()
+
+		when:
+		testService.requireUsePrinterPermissions()
+
+		then:
+		thrown UnauthorizedException
+
+		when:
+		logout()
+		login 'user2'
+
+		then:
+		testService.requirePrinterAdminPermissions()
+		testService.requireUsePrinterPermissions()
+
+		when:
+		logout()
+		login 'user3'
+		testService.requirePrinterAdminPermissions()
+
+		then:
+		thrown UnauthorizedException
+
+		when:
+		testService.requireUsePrinterPermissions()
+
+		then:
+		thrown UnauthorizedException
+	}
+
 	void testRequiresUser() {
 		when:
 		testService.requireUser()

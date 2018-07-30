@@ -21,6 +21,9 @@ class BootStrap {
 		save new Permission(user3, 'action:jump')
 		save new Permission(user3, 'action:kick')
 
+		save new RolePermission(roleAdmin, 'printer:admin')
+		save new RolePermission(roleUser, 'printer:use')
+
 		UserRole.create user1, roleAdmin, true
 		UserRole.create user2, roleAdmin, true
 		UserRole.create user2, roleUser, true
