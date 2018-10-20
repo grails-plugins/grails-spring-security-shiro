@@ -431,9 +431,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#usage">2. Usage</a>
 <ul class="sectlevel2">
-<li><a href="#permissions">2.1. Permissions</a></li>
-<li><a href="#annotated-service-methods">2.2. Annotated service methods</a></li>
-<li><a href="#using-shiro-directly">2.3. Using Shiro directly</a></li>
+<li><a href="#user-permissions">2.1. User Permissions</a></li>
+<li><a href="#role-permissions">2.2. Role Permissions</a></li>
+<li><a href="#annotated-service-methods">2.3. Annotated service methods</a></li>
+<li><a href="#using-shiro-directly">2.4. Using Shiro directly</a></li>
 </ul>
 </li>
 <li><a href="#configuration">3. Configuration</a></li>
@@ -454,6 +455,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="history">1.1. History</h3>
 <div class="ulist">
 <ul>
+<li>
+<p>Version 3.2</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Added optional role-based permissions capability</p>
+</li>
+</ul>
+</div>
+</li>
 <li>
 <p>Version 3.1.1</p>
 <div class="ulist">
@@ -571,7 +582,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>This will transitively install the <a href="http://grails.org/plugin/spring-security-core">Spring Security Core</a> plugin, so you&#8217;ll need to configure that by running the <code>s2-quickstart</code> script.</p>
 </div>
 <div class="sect2">
-<h3 id="permissions">2.1. Permissions</h3>
+<h3 id="user-permissions">2.1. User Permissions</h3>
 <div class="paragraph">
 <p>To use the Shiro annotations and methods you need a way to associate roles and permissions with users. The Spring Security Core plugin already handles the role part for you, so you must configure permissions for this plugin. There is no script to create a domain class, but it&#8217;s a very simple class and easy to create yourself. It can have any name and be in any package, but otherwise the structure must look like this:</p>
 </div>
@@ -616,13 +627,67 @@ beans = {
 </div>
 </div>
 <div class="sect2">
-<h3 id="annotated-service-methods">2.2. Annotated service methods</h3>
+<h3 id="role-permissions">2.2. Role Permissions</h3>
+<div class="paragraph">
+<p>Shiro can use both user-based and role-based permissions. The Spring Security Shiro plugin includes optional support for this capability. If role-based permissions are enabled, the effective permissions for a user becomes the union of both the user-based permissions and the role-based permissions for the user&#8217;s roles, and all calls that expect permissions will use the union of the two. The Spring Security Core plugin handles the roles for you but you must configure permissions for the role.</p>
+</div>
+<div class="paragraph">
+<p>As with the user-based permissions, there is no script to create a domain class, but it is simple to create one. It can also have any name and be in any package, but otherwise the structure must look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">package com.mycompany.myapp
+
+class RolePermission {
+    Role role
+    String permission
+
+    RolePermission(Role role, String permission) {
+        this.role = role
+    this.permission = permission
+    }
+
+    static constraints = {
+        permission unique: 'role'
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Register the class name along with the other Spring Security attributes in <code>application.groovy</code> (or <code>application.yml</code>) using the <code>grails.plugin.springsecurity.shiro.rolePermissionDomainClassName</code> property, e.g.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">grails.plugin.springsecurity.shiro.rolePermissionDomainClassName = 'com.mycompany.myapp.RolePermission'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can add other properties and methods, but the plugin expects that there is a one-to-many between your role and permission classes, that the role property name is &#8220;role&#8221; (regardless of the actual class name), and the permission property name is &#8220;permission&#8221;.</p>
+</div>
+<div class="paragraph">
+<p>If you need more flexibility, you can replace the Spring bean that looks up role-based permissions. Create a class in src/main/groovy that implements the <code>import org.apache.shiro.authz.permission.RolePermissionResolver</code> interface, and define the <code>Collection&lt;Permission&gt; resolvePermissionsInRole(String roleString)</code> method any way you like. Note that the collection of permissions returned are of type <code>org.apache.shiro.authz.Permission</code>, not the Permission you have defined in your application. You can use the <code>grails.plugin.springsecurity.shiro.GormShiroRolePermissionResolver</code> as an example for your own implementation.</p>
+</div>
+<div class="paragraph">
+<p>Register your bean as the <code>shiroRolePermissionResolver</code> bean in <code>resources.groovy</code>, for example</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">import com.mycompany.myapp.MyShiroRolePermissionResolver
+
+beans = {
+   shiroRolePermissionResolver(MyShiroRolePermissionResolver)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="annotated-service-methods">2.3. Annotated service methods</h3>
 <div class="paragraph">
 <p>Currently only Grails services and other Spring beans can be annotated, so this feature isn&#8217;t available in controllers. You can use any of <a href="https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresAuthentication.html">RequiresAuthentication</a>, <a href="https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresGuest.html">RequiresGuest</a>, <a href="https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresPermissions.html">RequiresPermissions</a>, <a href="https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresRoles.html">RequiresRoles</a>, and <a href="https://shiro.apache.org/static/1.2.3/apidocs/org/apache/shiro/authz/annotation/RequiresUser.html">RequiresUser</a>. See the <a href="https://shiro.apache.org/documentation.html">Shiro documentation</a> and <a href="https://shiro.apache.org/static/1.2.3/apidocs/">Javadoc</a> for the annotation syntax.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="using-shiro-directly">2.3. Using Shiro directly</h3>
+<h3 id="using-shiro-directly">2.4. Using Shiro directly</h3>
 <div class="paragraph">
 <p>You should use the annotations to keep from cluttering your code with explicit security checks, but the standard <code>Subject</code> methods will work:</p>
 </div>
@@ -698,8 +763,13 @@ subject.isAuthenticated()
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">shiro.permissionDomainClassName</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">none, must be set</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>none</em>, must be set</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the full class name of the permission domain class</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shiro.rolePermissionDomainClassName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>none</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set, the full class name of the role permissions domain class</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">shiro.useCache</p></td>
@@ -719,7 +789,7 @@ subject.isAuthenticated()
 <div id="footer">
 <div id="footer-text">
 Version 3.1.2.BUILD-SNAPSHOT<br>
-Last updated 2018-05-14 07:01:31 +00:00
+Last updated 2018-10-20 03:40:48 +00:00
 </div>
 </div>
 </body>
