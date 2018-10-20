@@ -52,4 +52,10 @@ class TestService {
 
 	@RequiresAuthentication
 	boolean requireAuthentication() { true }
+
+	@RequiresPermissions('printer:admin')
+	boolean requirePrinterAdminPermissions() { true }
+
+	@RequiresPermissions('printer:use')
+	boolean requireUsePrinterPermissions() { true }
 }

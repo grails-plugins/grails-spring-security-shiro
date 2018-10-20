@@ -84,11 +84,20 @@ class SpringSecurityShiroGrailsPlugin extends Plugin {
 			grailsApplication = grailsApplication
 		}
 
+		if (conf.shiro.rolePermissionDomainClassName) {
+			shiroRolePermissionResolver(GormShiroRolePermissionResolver) {
+				grailsApplication = grailsApplication
+			}
+		}
+
 		boolean useCache = conf.shiro.useCache // true
 
 		springSecurityRealm(SpringSecurityRealm) {
 			authenticationTrustResolver = ref('authenticationTrustResolver')
 			shiroPermissionResolver = ref('shiroPermissionResolver')
+			if (conf.shiro.rolePermissionDomainClassName) {
+				rolePermissionResolver = ref('shiroRolePermissionResolver')
+			}
 			if (useCache) {
 				cacheManager = ref('shiroCacheManager')
 			}

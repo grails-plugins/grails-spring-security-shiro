@@ -21,7 +21,7 @@ $ grails compile
 
 This will transitively install the http://grails.org/plugin/spring-security-core[Spring Security Core] plugin, so you'll need to configure that by running the `s2-quickstart` script.
 
-=== Permissions
+=== User Permissions
 
 To use the Shiro annotations and methods you need a way to associate roles and permissions with users. The Spring Security Core plugin already handles the role part for you, so you must configure permissions for this plugin. There is no script to create a domain class, but it's a very simple class and easy to create yourself. It can have any name and be in any package, but otherwise the structure must look like this:
 
@@ -58,6 +58,53 @@ import com.mycompany.myapp.MyShiroPermissionResolver
 
 beans = {
    shiroPermissionResolver(MyShiroPermissionResolver)
+}
+----
+
+=== Role Permissions
+
+Shiro can use both user-based and role-based permissions. The Spring Security Shiro plugin includes optional support for this capability. If role-based permissions are enabled, the effective permissions for a user becomes the union of both the user-based permissions and the role-based permissions for the user's roles, and all calls that expect permissions will use the union of the two. The Spring Security Core plugin handles the roles for you but you must configure permissions for the role.
+
+As with the user-based permissions, there is no script to create a domain class, but it is simple to create one. It can also have any name and be in any package, but otherwise the structure must look like this:
+
+[source,java]
+----
+package com.mycompany.myapp
+
+class RolePermission {
+    Role role
+    String permission
+
+    RolePermission(Role role, String permission) {
+        this.role = role
+    this.permission = permission
+    }
+
+    static constraints = {
+        permission unique: 'role'
+    }
+}
+----
+
+Register the class name along with the other Spring Security attributes in `application.groovy` (or `application.yml`) using the `grails.plugin.springsecurity.shiro.rolePermissionDomainClassName` property, e.g.
+
+[source,java]
+----
+grails.plugin.springsecurity.shiro.rolePermissionDomainClassName = 'com.mycompany.myapp.RolePermission'
+----
+
+You can add other properties and methods, but the plugin expects that there is a one-to-many between your role and permission classes, that the role property name is "`role`" (regardless of the actual class name), and the permission property name is "`permission`".
+
+If you need more flexibility, you can replace the Spring bean that looks up role-based permissions. Create a class in src/main/groovy that implements the `import org.apache.shiro.authz.permission.RolePermissionResolver` interface, and define the `Collection<Permission> resolvePermissionsInRole(String roleString)` method any way you like. Note that the collection of permissions returned are of type `org.apache.shiro.authz.Permission`, not the Permission you have defined in your application. You can use the `grails.plugin.springsecurity.shiro.GormShiroRolePermissionResolver` as an example for your own implementation.
+
+Register your bean as the `shiroRolePermissionResolver` bean in `resources.groovy`, for example
+
+[source,java]
+----
+import com.mycompany.myapp.MyShiroRolePermissionResolver
+
+beans = {
+   shiroRolePermissionResolver(MyShiroRolePermissionResolver)
 }
 ----
 
